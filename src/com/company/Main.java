@@ -229,7 +229,6 @@ public class Main
             {
                 fchEntrada = lt.next();
                 fecha = LocalDate.parse(fchEntrada);
-                System.out.println(" ");
                 valida = true;
             }
             catch (Exception ex)
@@ -694,6 +693,9 @@ public class Main
                                 System.out.println(" ");
                             }
 
+                            MenuP();
+                            opc = leerMenu();
+
                             break;
 
                         case 2: // REPORTE DE DIAGNOSTICOS
@@ -708,6 +710,9 @@ public class Main
                                 System.out.println("Diagnostico:    " + mascotaDiag[j]);
                                 System.out.println(" ");
                             }
+
+                            MenuP();
+                            opc = leerMenu();
 
                             break;
 
