@@ -1,5 +1,6 @@
 package com.company;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Main
@@ -10,10 +11,9 @@ public class Main
     private static int opcCit;
     private static int opcDiag = 0;
     private static int opcRep;
-    private static int hora;
-    private static int minutos;
     private static int cita;
     private static int correlative;
+    private static LocalTime hora;
     private static LocalDate date;
     private static String Yes = "y";
     private static String No = "n";
@@ -25,6 +25,7 @@ public class Main
     private static String mascota2;
     private static String diagnostico;
     private static LocalDate[] fechas = new LocalDate[10];
+    private static LocalTime[] horas = new LocalTime[10];
     private static String[] nombresClnt = new String[10];
     private static String[] nombreMascta = new String[10];
     private static String[] Cancelada = new String[10];
@@ -241,6 +242,35 @@ public class Main
         return fecha;
     }
 
+    public static LocalTime leerHora() // METODO PARA LEER HORA DE CITAS
+    {
+        // VARIABLES
+        LocalTime hora1 = null;
+        String horaEntrada;
+        boolean va2 = false;
+
+        // CREAR OBJETO PARA LECTURA TECLADO
+        Scanner lt2 = new Scanner(System.in); // Creando Objeto Para Leer Teclado
+
+        while(!va2)
+        {
+            try
+            {
+                horaEntrada = lt2.next();
+                hora1 = LocalTime.parse(horaEntrada);
+                System.out.println(" ");
+                va2 = true;
+            }
+            catch (Exception ex)
+            {
+                lt2.next();
+                System.out.print("Ingrese una hora correcta por favor: ");
+            }
+        }
+
+        return hora1;
+    }
+
     public static String confirmarPregunta() // METODO PARA CONFIRMAR SI DESEA AGENDAR NUEVA CITA
     {
         // VARIABLES
@@ -267,42 +297,6 @@ public class Main
         }
 
         return pregunta;
-    }
-
-    public static String mostrarCitas() // METODO PARA MOSTRAR CITAS
-    {
-        for(cita = 0; cita<nombresClnt.length-1;cita++)
-        {
-            System.out.print("    " + cita + "  ");
-        }
-
-        return " ";
-    }
-
-    public static String mostrarClientes() // METODO PARA MOSTRAR CLIENTES
-    {
-        System.out.println(" ");
-        for(cita = 0; cita<nombresClnt.length-1;cita++)
-        {
-            System.out.print("    " + nombresClnt[cita] + "      ");
-        }
-
-        return " ";
-    }
-
-    public static void mostrarMascotas() // METODO PARA MOSTRAR MASCOTAS
-    {
-
-    }
-
-    public static void mostrarFechas() // METODO PARA MOSTRAR FECHAS
-    {
-
-    }
-
-    public static void mostrarStatus() // METODO PARA MOSTRAR STATUS
-    {
-
     }
 
     public static void main(String[] args)
@@ -356,6 +350,10 @@ public class Main
                                 System.out.println("Ingrese fecha de la cita (AAAA-MM-DD): ");
                                 date = leerFecha();
 
+                                // SOLICITAR HORA DE CITA
+                                System.out.println("Ingrese la hora de la cita (HH:MM): ");
+                                hora = leerHora();
+
                                 // INGRESANDO EL NOMBRE DEL CLIENTE EN LA POSICION "cita" DEL ARREGLO nombresClnt
                                 nombresClnt[cita] = cliente;
 
@@ -364,6 +362,9 @@ public class Main
 
                                 // INGRESANDO LA FECHA DE LA CITA EN LA POSICION "cita" DEL ARREGLO fechas
                                 fechas[cita] = date;
+
+                                // INGRESANDO LA HORA DE LA CITA EN LA POSICION "cita" DEL ARREGLO horas
+                                horas[cita] = hora;
 
                                 // INGRESANDO STATUS DE ACTIVA EN LA POSICION "cita" DEL ARREGLO CANCELADA
                                 Cancelada[cita] = "Activa";
@@ -398,6 +399,7 @@ public class Main
                             System.out.println("Nombre Cliente: " + nombresClnt[cita]);
                             System.out.println("Nombre Mascota: " + nombreMascta[cita]);
                             System.out.println("Fecha de Cita:  " + fechas[cita]);
+                            System.out.println("Hora de Cita:   " + horas[cita]);
 
                             String ask2;
 
@@ -409,10 +411,14 @@ public class Main
                                 System.out.println("Ingrese la nueva fecha de la cita (AAAA-MM-DD)");
                                 date = leerFecha();
 
-                                // INGRESANDO LA NUEVA FECHA DE LA CITA EN LA POSICION "cita"
-                                fechas[cita] = date;
+                                System.out.println("Ingrese la nueva hora de la cita (HH:MM)");
+                                hora = leerHora();
 
-                                System.out.println("Fecha de la cita modificada");
+                                // INGRESANDO LA NUEVA FECHA Y HORA DE LA CITA EN LA POSICION "cita"
+                                fechas[cita] = date;
+                                horas[cita] = hora;
+
+                                System.out.println("Fecha y Hora de la cita modificada");
                                 System.out.println(" ");
                             }
 
@@ -677,32 +683,31 @@ public class Main
 
                             System.out.println("********Reporte de Citas*******");
 
-                            System.out.println("|  #Cita  |    Nombre    |     Mascota    |    Fecha    |     Status    |");
-                            mostrarCitas();
-                            mostrarClientes();
-
-
-                            /*for(cita = 0; cita<nombreMascta.length-1;cita++)
+                            for(int i = 0; i<10; i++)
                             {
-                                System.out.println("                       " + nombreMascta[cita]);
+                                System.out.println("Numero de Cita: " + i);
+                                System.out.println("Nombre Cliente: " + nombresClnt[i]);
+                                System.out.println("Nombre Mascota: " + nombreMascta[i]);
+                                System.out.println("Fecha de Cita:  " + fechas[i]);
+                                System.out.println("Hora de Cita:   " + horas[i]);
+                                System.out.println("Status de Cita: " + Cancelada[i]);
+                                System.out.println(" ");
                             }
 
-                            for(cita = 0; cita<fechas.length-1;cita++)
-                            {
-                                System.out.println("                                   " + fechas[cita]);
-                            }
-
-                            for(cita = 0; cita<Cancelada.length-1;cita++)
-                            {
-                                System.out.println("                                                " + Cancelada[cita]);
-                            }*/
-
-                            System.out.println(" ");
                             break;
 
                         case 2: // REPORTE DE DIAGNOSTICOS
 
                             System.out.println("****Reporte de Diagnosticos****");
+
+                            for(int j = 0; j<10; j++)
+                            {
+                                System.out.println("Numero de Cita: " + j);
+                                System.out.println("Nombre Cliente: " + nombreCltDiag[j]);
+                                System.out.println("Nombre Mascota: " + nombreMasctaDiag[j]);
+                                System.out.println("Diagnostico:    " + mascotaDiag[j]);
+                                System.out.println(" ");
+                            }
 
                             break;
 
